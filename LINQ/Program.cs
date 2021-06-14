@@ -227,7 +227,17 @@ namespace LINQ
         /// </summary>
         static void Exercise4()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
+            var filtered =
+                from item in products
+                select new { ProdName = item.ProductName };
 
+            foreach (var x in filtered)
+            {
+                Console.WriteLine(x.ProdName);
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -235,15 +245,48 @@ namespace LINQ
         /// </summary>
         static void Exercise5()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
+            var filtered =
+                from item in products
+                select new {
+                    ProductID = item.ProductID,
+                    ProductName = item.ProductName,
+                    Category = item.Category,
+                    UnitPrice = Decimal.Multiply(item.UnitPrice, 1.25M),
+                    UnitsInStock = item.UnitsInStock
+                    };
 
-        }
+            string line = "{0,-5} {1,-35} {2,-15} {3,6:c} {4,6}";
+            Console.WriteLine(line, "ID", "Product Name", "Category", "Unit", "Stock");
+            Console.WriteLine("==============================================================================");
+
+            foreach (var product in filtered)
+            {
+                Console.WriteLine(line, product.ProductID, product.ProductName, product.Category,
+                    product.UnitPrice, product.UnitsInStock);
+            }
+            Console.ReadKey();
+    }
 
         /// <summary>
         /// Create and print an anonymous type of only ProductName and Category with all the letters in upper case
         /// </summary>
         static void Exercise6()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
+            var filtered =
+                from item in products
+                select new { 
+                    ProdName = item.ProductName.ToUpper(),
+                    Category = item.Category.ToUpper() };
 
+            foreach (var x in filtered)
+            {
+                Console.WriteLine(x.ProdName + ", " + x.Category);
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -254,7 +297,30 @@ namespace LINQ
         /// </summary>
         static void Exercise7()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
+            var filtered =
+                from item in products
+                select new
+                {
+                    ProductID = item.ProductID,
+                    ProductName = item.ProductName,
+                    Category = item.Category,
+                    UnitPrice = item.UnitPrice,
+                    UnitsInStock = item.UnitsInStock,
+                    ReOrder = item.UnitsInStock < 3 ? true : false 
+                };
 
+            string line = "{0,-5} {1,-35} {2,-15} {3,6:c} {4,6} {5, 6}";
+            Console.WriteLine(line, "ID", "Product Name", "Category", "Unit", "Stock", "ReOrder?");
+            Console.WriteLine("==============================================================================");
+
+            foreach (var product in filtered)
+            {
+                Console.WriteLine(line, product.ProductID, product.ProductName, product.Category,
+                    product.UnitPrice, product.UnitsInStock, product.ReOrder);
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -263,7 +329,30 @@ namespace LINQ
         /// </summary>
         static void Exercise8()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
+            var filtered =
+                from item in products
+                select new
+                {
+                    ProductID = item.ProductID,
+                    ProductName = item.ProductName,
+                    Category = item.Category,
+                    UnitPrice = item.UnitPrice,
+                    UnitsInStock = item.UnitsInStock,
+                    StockValue = Decimal.Multiply(item.UnitPrice, item.UnitsInStock).ToString("0.00")
+                };
 
+            string line = "{0,-5} {1,-35} {2,-15} {3,6:c} {4,6} {5, 6}";
+            Console.WriteLine(line, "ID", "Product Name", "Category", "Unit", "Stock", "StockValue");
+            Console.WriteLine("==============================================================================");
+
+            foreach (var product in filtered)
+            {
+                Console.WriteLine(line, product.ProductID, product.ProductName, product.Category,
+                    product.UnitPrice, product.UnitsInStock, product.StockValue);
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
