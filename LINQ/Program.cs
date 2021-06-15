@@ -360,7 +360,15 @@ namespace LINQ
         /// </summary>
         static void Exercise9()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            int[] indexes = DataLoader.NumbersA.Where(x => x % 2 == 0).ToArray();
+            List<Product> filtered = products.Where(x => indexes.Contains(x.ProductID)).ToList();
+
+            // Print filtered list
+            PrintProductInformation(filtered);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -368,7 +376,14 @@ namespace LINQ
         /// </summary>
         static void Exercise10()
         {
+            Console.Clear();
+            List<Customer> customers = DataLoader.LoadCustomers();
 
+            var filtered = customers.Where(x => x.Orders.Sum(y => y.Total) < 500.0M);
+
+            // Print filtered list
+            PrintCustomerInformation(filtered);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -376,7 +391,15 @@ namespace LINQ
         /// </summary>
         static void Exercise11()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            int[] indexes = DataLoader.NumbersC.Where(x => x % 2 != 0).ToArray();
+            List<Product> filtered = products.Where(x => indexes.Contains(x.ProductID)).ToList().GetRange(0, 3);
+
+            // Print filtered list
+            PrintProductInformation(filtered);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -384,7 +407,14 @@ namespace LINQ
         /// </summary>
         static void Exercise12()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            List<Product> filtered = products.Where(x => DataLoader.NumbersB.Contains(x.ProductID)).ToList().GetRange(3, DataLoader.NumbersB.Length - 3);
+
+            // Print filtered list
+            PrintProductInformation(filtered);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -392,7 +422,21 @@ namespace LINQ
         /// </summary>
         static void Exercise13()
         {
-
+            Console.Clear();
+            List<Customer> customers = DataLoader.LoadCustomers();
+            var filtered = customers.Where(x => x.Region == "WA");
+            // Loop through each customer in filter
+            foreach (Customer x in filtered)
+            {
+                Console.WriteLine($"Company: {x.CompanyName}\n\nMost Recent Order:\n");
+                // Print detail if they have existing orders
+                if (x.Orders.Length > 0)
+                {
+                    Order recent = x.Orders.Last();
+                    Console.WriteLine($"Order ID: {recent.OrderID}\nOrder Date: {recent.OrderDate}\nOrder Total: ${recent.Total.ToString("#.##")}");
+                }
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
