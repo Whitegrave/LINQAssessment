@@ -16,7 +16,7 @@ namespace LINQ
             while (bKeepRunning)
             {
                 Console.Clear();
-                int choice = UserInput.GetIntFromUser(ListExercises() + "\nEnter a number 1 to 31 for the matching exercize above. 0 to quit.", true, false, 0, 31, true);
+                int choice = UserInput.GetIntFromUser(ListExercises() + "\nEnter a number 1 to 31 for the matching exercize above. 0 to quit: ", true, false, 0, 31, true);
 
                 switch (choice)
                 {
@@ -361,13 +361,14 @@ namespace LINQ
         static void Exercise9()
         {
             Console.Clear();
-            List<Product> products = DataLoader.LoadProducts();
 
-            int[] indexes = DataLoader.NumbersA.Where(x => x % 2 == 0).ToArray();
-            List<Product> filtered = products.Where(x => indexes.Contains(x.ProductID)).ToList();
+            int[] filtered = DataLoader.NumbersA.Where(x => x % 2 == 0).ToArray();
 
             // Print filtered list
-            PrintProductInformation(filtered);
+            foreach(int x in filtered)
+            {
+                Console.WriteLine(x);
+            }
             Console.ReadKey();
         }
 
@@ -392,13 +393,14 @@ namespace LINQ
         static void Exercise11()
         {
             Console.Clear();
-            List<Product> products = DataLoader.LoadProducts();
 
-            int[] indexes = DataLoader.NumbersC.Where(x => x % 2 != 0).ToArray();
-            List<Product> filtered = products.Where(x => indexes.Contains(x.ProductID)).ToList().GetRange(0, 3);
+            List<int> filtered = DataLoader.NumbersC.Where(x => x % 2 != 0).ToList().GetRange(0, 3);
 
             // Print filtered list
-            PrintProductInformation(filtered);
+            foreach (int x in filtered)
+            {
+                Console.WriteLine(x);
+            }
             Console.ReadKey();
         }
 
@@ -408,12 +410,14 @@ namespace LINQ
         static void Exercise12()
         {
             Console.Clear();
-            List<Product> products = DataLoader.LoadProducts();
 
-            List<Product> filtered = products.Where(x => DataLoader.NumbersB.Contains(x.ProductID)).ToList().GetRange(3, DataLoader.NumbersB.Length - 3);
+            List<int> filtered = DataLoader.NumbersB.ToList().GetRange(3, DataLoader.NumbersB.Length - 3);
 
             // Print filtered list
-            PrintProductInformation(filtered);
+            foreach (int x in filtered)
+            {
+                Console.WriteLine(x);
+            }
             Console.ReadKey();
         }
 
@@ -444,7 +448,16 @@ namespace LINQ
         /// </summary>
         static void Exercise14()
         {
+            Console.Clear();
 
+            List<int> filtered = DataLoader.NumbersC.Where(x => x >= 6).ToList();
+
+            // Print filtered list
+            foreach (int x in filtered)
+            {
+                Console.WriteLine(x);
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -452,7 +465,32 @@ namespace LINQ
         /// </summary>
         static void Exercise15()
         {
+            Console.Clear();
 
+            List<int> filtered = DataLoader.NumbersC.ToList();
+            bool indexFound = false;
+            int index = 0;
+
+            // Find first diivisible index
+            while (!indexFound)
+            {
+                if (filtered[index] % 3 == 0)
+                {
+                    indexFound = true;
+                    break;
+                }              
+                index++;
+            }
+
+            // use Linq to remove unwanted indexes
+            filtered = filtered.GetRange(index, filtered.Count - index);
+
+            // Print filtered list
+            foreach (int x in filtered)
+            {
+                Console.WriteLine(x);
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -460,7 +498,13 @@ namespace LINQ
         /// </summary>
         static void Exercise16()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            var filtered = products.OrderBy(x => x.ProductName);
+
+            PrintProductInformation(filtered);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -468,7 +512,13 @@ namespace LINQ
         /// </summary>
         static void Exercise17()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            var filtered = products.OrderByDescending(x => x.UnitsInStock);
+
+            PrintProductInformation(filtered);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -476,7 +526,13 @@ namespace LINQ
         /// </summary>
         static void Exercise18()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            var filtered = products.OrderByDescending(x => x.UnitPrice).OrderBy(y => y.Category);
+
+            PrintProductInformation(filtered);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -484,7 +540,16 @@ namespace LINQ
         /// </summary>
         static void Exercise19()
         {
+            Console.Clear();
 
+            List<int> filtered = DataLoader.NumbersB.Reverse().ToList();
+
+            // Print filtered list
+            foreach (int x in filtered)
+            {
+                Console.WriteLine(x);
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -501,7 +566,18 @@ namespace LINQ
         /// </summary>
         static void Exercise20()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            var groups = products.GroupBy(x => x.Category);
+            
+            foreach(var x in groups)
+            {
+                Console.WriteLine(x.Key + ":");
+                PrintProductInformation(x);
+                Console.WriteLine("\n");
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -517,7 +593,33 @@ namespace LINQ
         /// </summary>
         static void Exercise21()
         {
+            Console.Clear();
+            List<Customer> customers = DataLoader.LoadCustomers();
 
+            //var customerGroups = customers.GroupBy(x => x.CustomerID);
+
+            foreach (Customer x in customers)
+            {
+                Console.WriteLine(x.CustomerID + ", " + x.CompanyName);
+                var orderList = x.Orders.ToList();
+
+                var orderGroups = orderList.GroupBy(y => y.OrderDate.Year);
+
+                foreach (var year in orderGroups)
+                {
+                    year.OrderBy(z => z.OrderDate);
+                    Console.WriteLine(year.Key);
+
+                    foreach (var printme in year)
+                    {
+                        Console.WriteLine($"\t {printme.OrderDate.Month} - {printme.Total}");
+                    }
+                }
+
+
+                Console.WriteLine("\n");
+            }
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -525,7 +627,30 @@ namespace LINQ
         /// </summary>
         static void Exercise22()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            // Create new list to house categories
+            List<string> categories =new List<string>();
+
+
+            // products.Select(x => x.Category).Distinct(); // Why doesn't this work? (prints all, not distinct)
+
+            // Populate
+            foreach (var x in products)
+            {
+                categories.Add(x.Category);
+            }
+
+            // Filter for uniques
+            // categories.Distinct(); // This also doesn't work? Only if I use Distinct() in the foreach expression
+
+            foreach (var x in categories.Distinct())
+            {
+                Console.WriteLine(x);
+            }
+
+            Console.ReadKey();
         }
 
         /// <summary>
