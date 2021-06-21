@@ -658,6 +658,18 @@ namespace LINQ
         /// </summary>
         static void Exercise23()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
+
+            if (products.Any(x => x.ProductID == 789))
+            {
+                Console.WriteLine("789 exists");
+                Console.ReadKey();
+                return;
+            }
+            Console.WriteLine("789 does not exist");
+            Console.ReadKey();
+
 
         }
 
@@ -666,7 +678,29 @@ namespace LINQ
         /// </summary>
         static void Exercise24()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            // Create new list to house categories
+            List<string> categories = new List<string>();
+
+            // Populate categories only for items out of stock
+            foreach (var x in products)
+            {
+                if (x.UnitsInStock <= 0)
+                    categories.Add(x.Category);
+            }
+
+            // Make distinct
+            categories = categories.Distinct().ToList();
+
+            // print
+            foreach (var x in categories)
+            {
+                Console.WriteLine(x);
+            }
+
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -674,7 +708,41 @@ namespace LINQ
         /// </summary>
         static void Exercise25()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            // Create new list to house categories
+            List<string> categories = new List<string>();
+            List<string> oosCategories = new List<string>();
+
+            // Populate categories only for items out of stock
+            foreach (var x in products)
+            {
+                // populate master list
+                categories.Add(x.Category);
+                // populate out of stock list
+                if (x.UnitsInStock <= 0)
+                    oosCategories.Add(x.Category);              
+            }
+
+            // Make distinct
+            categories = categories.Distinct().ToList();
+            oosCategories = oosCategories.Distinct().ToList();
+
+            // Remove oos from master list
+
+            foreach (var x in oosCategories)
+            {
+                categories.Remove(x);
+            }
+
+            // print
+            foreach (var x in categories)
+            {
+                Console.WriteLine(x);
+            }
+
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -682,7 +750,10 @@ namespace LINQ
         /// </summary>
         static void Exercise26()
         {
-
+            Console.Clear();
+            int oddCount = DataLoader.NumbersA.Where(x => x % 2 != 0).Count();
+            Console.WriteLine(oddCount);
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -690,7 +761,23 @@ namespace LINQ
         /// </summary>
         static void Exercise27()
         {
+            Console.Clear();
+            List<Customer> customers = DataLoader.LoadCustomers();
 
+            var filtered =
+                from item in customers
+                select new
+                {
+                    custID = item.CustomerID,
+                    orderCount = item.Orders.Length
+                };
+
+            foreach(var x in filtered)
+            {
+                Console.WriteLine($"Customer: {x.custID}\n Orders: {x.orderCount}");
+            }
+
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -698,7 +785,29 @@ namespace LINQ
         /// </summary>
         static void Exercise28()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            // Create new list to house categories
+            List<string> categories = new List<string>();
+
+            // Populate categories
+            foreach (var x in products)
+            {
+                    categories.Add(x.Category);
+            }
+
+            // Make distinct
+            categories = categories.Distinct().ToList();
+
+            // print
+            foreach (var x in categories)
+            {
+                int prodCount = products.Where(y => y.Category == x).Count();
+                Console.WriteLine($"{x} contains {prodCount} products.");
+            }
+
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -706,7 +815,29 @@ namespace LINQ
         /// </summary>
         static void Exercise29()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            // Create new list to house categories
+            List<string> categories = new List<string>();
+
+            // Populate categories
+            foreach (var x in products)
+            {
+                categories.Add(x.Category);
+            }
+
+            // Make distinct
+            categories = categories.Distinct().ToList();
+
+            // print
+            foreach (var x in categories)
+            {
+                int prodCount = products.Where(y => y.Category == x).Sum(z => z.UnitsInStock);
+                Console.WriteLine($"{x} contains {prodCount} total product units in stock.");
+            }
+
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -714,7 +845,32 @@ namespace LINQ
         /// </summary>
         static void Exercise30()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            // Create new list to house categories
+            List<string> categories = new List<string>();
+
+            // Populate categories
+            foreach (var x in products)
+            {
+                categories.Add(x.Category);
+            }
+
+            // Make distinct
+            categories = categories.Distinct().ToList();
+
+            // Sort products by ascending price
+            products = products.OrderBy(x => x.UnitPrice).ToList();
+
+            // print the first item matching category which will be the lowest in price due to sorting
+            foreach (var x in categories)
+            {
+                Product lowProd = products.First(y => y.Category == x);
+                Console.WriteLine($"{x} category's lowerst priced item is: {lowProd.ProductName}");
+            }
+
+            Console.ReadKey();
         }
 
         /// <summary>
@@ -722,7 +878,32 @@ namespace LINQ
         /// </summary>
         static void Exercise31()
         {
+            Console.Clear();
+            List<Product> products = DataLoader.LoadProducts();
 
+            // Create new list to house categories
+            List<string> categories = new List<string>();
+
+            // Populate categories
+            foreach (var x in products)
+            {
+                categories.Add(x.Category);
+            }
+
+            // Make distinct
+            categories = categories.Distinct().ToList();
+
+            // Order categories by their matching product list aggregated and averaged unit price, descending
+            categories = categories.OrderByDescending(x => products.Where(y => y.Category == x).Average(z => z.UnitPrice)).ToList();
+
+            // print 3
+            for (int i = 0; i < 3; i++)
+            {
+                var x = categories[i];
+                Console.WriteLine($"{x} has an average unit price of {products.Where(y => y.Category == x).Average(z => z.UnitPrice).ToString("#.##")}");
+            }
+
+            Console.ReadKey();
         }
 
         static string ListExercises()
