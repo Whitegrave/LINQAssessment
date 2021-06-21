@@ -192,6 +192,7 @@ namespace LINQ
         static void Exercise1()
         {
             Console.Clear();
+            Console.WriteLine("Print all products that are out of stock.\n");
             List<Product> products = DataLoader.LoadProducts();
             var filtered = products.Where(x => x.UnitsInStock <= 0);
             PrintProductInformation(filtered);
@@ -204,6 +205,7 @@ namespace LINQ
         static void Exercise2()
         {
             Console.Clear();
+            Console.WriteLine("Print all products that are in stock and cost more than 3.00 per unit.\n");
             List<Product> products = DataLoader.LoadProducts();
             var filtered = products.Where(x => x.UnitsInStock > 0 && x.UnitPrice > 3.0M);
             PrintProductInformation(filtered);
@@ -216,6 +218,7 @@ namespace LINQ
         static void Exercise3()
         {
             Console.Clear();
+            Console.WriteLine("Print all customer and their order information for the Washington (WA) region.\n");
             List<Customer> customers = DataLoader.LoadCustomers();
             var filtered = customers.Where(x => x.Region == "WA");
             PrintCustomerInformation(filtered);
@@ -228,6 +231,7 @@ namespace LINQ
         static void Exercise4()
         {
             Console.Clear();
+            Console.WriteLine("Create and print an anonymous type with just the ProductName\n");
             List<Product> products = DataLoader.LoadProducts();
             var filtered =
                 from item in products
@@ -246,6 +250,7 @@ namespace LINQ
         static void Exercise5()
         {
             Console.Clear();
+            Console.WriteLine("Create and print an anonymous type of all product information but increase the unit price by 25%\n");
             List<Product> products = DataLoader.LoadProducts();
             var filtered =
                 from item in products
@@ -275,6 +280,7 @@ namespace LINQ
         static void Exercise6()
         {
             Console.Clear();
+            Console.WriteLine("Create and print an anonymous type of only ProductName and Category with all the letters in upper case\n");
             List<Product> products = DataLoader.LoadProducts();
             var filtered =
                 from item in products
@@ -298,6 +304,8 @@ namespace LINQ
         static void Exercise7()
         {
             Console.Clear();
+            Console.WriteLine("Create and print an anonymous type of all Product information with an extra bool property ReOrder which should ");
+            Console.WriteLine("be set to true if the Units in Stock is less than 3\n");
             List<Product> products = DataLoader.LoadProducts();
             var filtered =
                 from item in products
@@ -330,6 +338,8 @@ namespace LINQ
         static void Exercise8()
         {
             Console.Clear();
+            Console.WriteLine("Create and print an anonymous type of all Product information with an extra decimal called");
+            Console.WriteLine("StockValue which should be the product of unit price and units in stock\n");
             List<Product> products = DataLoader.LoadProducts();
             var filtered =
                 from item in products
@@ -361,6 +371,8 @@ namespace LINQ
         static void Exercise9()
         {
             Console.Clear();
+            Console.WriteLine("Print only the even numbers in NumbersA");
+            Console.WriteLine("NumbersA = 0, 2, 4, 5, 6, 8, 9\n");
 
             int[] filtered = DataLoader.NumbersA.Where(x => x % 2 == 0).ToArray();
 
@@ -378,6 +390,7 @@ namespace LINQ
         static void Exercise10()
         {
             Console.Clear();
+            Console.WriteLine("Print only customers that have an order whos total is less than $500");
             List<Customer> customers = DataLoader.LoadCustomers();
 
             var filtered = customers.Where(x => x.Orders.Sum(y => y.Total) < 500.0M);
@@ -393,7 +406,8 @@ namespace LINQ
         static void Exercise11()
         {
             Console.Clear();
-
+            Console.WriteLine("Print only the first 3 odd numbers from NumbersC");
+            Console.WriteLine("NumbersC = 5, 4, 1, 3, 9, 8, 6, 7, 2, 0\n");
             List<int> filtered = DataLoader.NumbersC.Where(x => x % 2 != 0).ToList().GetRange(0, 3);
 
             // Print filtered list
@@ -410,7 +424,8 @@ namespace LINQ
         static void Exercise12()
         {
             Console.Clear();
-
+            Console.WriteLine("Print the numbers from NumbersB except the first 3");
+            Console.WriteLine("NumbersB = 1, 3, 5, 7, 8\n");
             List<int> filtered = DataLoader.NumbersB.ToList().GetRange(3, DataLoader.NumbersB.Length - 3);
 
             // Print filtered list
@@ -428,6 +443,7 @@ namespace LINQ
         {
             Console.Clear();
             List<Customer> customers = DataLoader.LoadCustomers();
+            Console.WriteLine("Print the Company Name and most recent order for each customer in Washington\n");
             var filtered = customers.Where(x => x.Region == "WA");
             // Loop through each customer in filter
             foreach (Customer x in filtered)
@@ -449,7 +465,8 @@ namespace LINQ
         static void Exercise14()
         {
             Console.Clear();
-
+            Console.WriteLine("Print all the numbers in NumbersC until a number is >= 6");
+            Console.WriteLine("NumbersC = 5, 4, 1, 3, 9, 8, 6, 7, 2, 0\n");
             List<int> filtered = DataLoader.NumbersC.Where(x => x >= 6).ToList();
 
             // Print filtered list
@@ -466,6 +483,8 @@ namespace LINQ
         static void Exercise15()
         {
             Console.Clear();
+            Console.WriteLine("Print all the numbers in NumbersC that come after the first number divisible by 3");
+            Console.WriteLine("NumbersC = 5, 4, 1, 3, 9, 8, 6, 7, 2, 0\n");
 
             List<int> filtered = DataLoader.NumbersC.ToList();
             bool indexFound = false;
@@ -499,6 +518,7 @@ namespace LINQ
         static void Exercise16()
         {
             Console.Clear();
+            Console.WriteLine("Print the products alphabetically by name\n");
             List<Product> products = DataLoader.LoadProducts();
 
             var filtered = products.OrderBy(x => x.ProductName);
@@ -513,6 +533,7 @@ namespace LINQ
         static void Exercise17()
         {
             Console.Clear();
+            Console.WriteLine("Print the products in descending order by units in stock");
             List<Product> products = DataLoader.LoadProducts();
 
             var filtered = products.OrderByDescending(x => x.UnitsInStock);
@@ -527,6 +548,7 @@ namespace LINQ
         static void Exercise18()
         {
             Console.Clear();
+            Console.WriteLine("Print the list of products ordered first by category, then by unit price, from highest to lowest.");
             List<Product> products = DataLoader.LoadProducts();
 
             var filtered = products.OrderByDescending(x => x.UnitPrice).OrderBy(y => y.Category);
@@ -541,7 +563,8 @@ namespace LINQ
         static void Exercise19()
         {
             Console.Clear();
-
+            Console.WriteLine("Print NumbersB in reverse order");
+            Console.WriteLine("NumbersB = 1, 3, 5, 7, 8\n");
             List<int> filtered = DataLoader.NumbersB.Reverse().ToList();
 
             // Print filtered list
@@ -568,6 +591,7 @@ namespace LINQ
         {
             Console.Clear();
             List<Product> products = DataLoader.LoadProducts();
+            Console.WriteLine("Group products by category, then print each category name and its products\n");
 
             var groups = products.GroupBy(x => x.Category);
             
@@ -596,7 +620,7 @@ namespace LINQ
             Console.Clear();
             List<Customer> customers = DataLoader.LoadCustomers();
 
-            //var customerGroups = customers.GroupBy(x => x.CustomerID);
+            Console.WriteLine("Print all Customers with their orders by Year then Month\n");
 
             foreach (Customer x in customers)
             {
@@ -628,6 +652,7 @@ namespace LINQ
         static void Exercise22()
         {
             Console.Clear();
+            Console.WriteLine("Print the unique list of product categories\n");
             List<Product> products = DataLoader.LoadProducts();
 
             // Create new list to house categories
@@ -659,6 +684,7 @@ namespace LINQ
         static void Exercise23()
         {
             Console.Clear();
+            Console.WriteLine("Write code to check to see if Product 789 exists\n");
             List<Product> products = DataLoader.LoadProducts();
 
             if (products.Any(x => x.ProductID == 789))
@@ -680,6 +706,7 @@ namespace LINQ
         {
             Console.Clear();
             List<Product> products = DataLoader.LoadProducts();
+            Console.WriteLine("Print a list of categories that have at least one product out of stock\n");
 
             // Create new list to house categories
             List<string> categories = new List<string>();
@@ -709,6 +736,7 @@ namespace LINQ
         static void Exercise25()
         {
             Console.Clear();
+            Console.WriteLine("Print a list of categories that have no products out of stock\n");
             List<Product> products = DataLoader.LoadProducts();
 
             // Create new list to house categories
@@ -751,6 +779,9 @@ namespace LINQ
         static void Exercise26()
         {
             Console.Clear();
+            Console.WriteLine("Count the number of odd numbers in NumbersA");
+            Console.WriteLine("NumbersA = 0, 2, 4, 5, 6, 8, 9\n");
+
             int oddCount = DataLoader.NumbersA.Where(x => x % 2 != 0).Count();
             Console.WriteLine(oddCount);
             Console.ReadKey();
@@ -762,6 +793,8 @@ namespace LINQ
         static void Exercise27()
         {
             Console.Clear();
+            Console.WriteLine("Create and print an anonymous type containing CustomerId and the count of their orders\n");
+
             List<Customer> customers = DataLoader.LoadCustomers();
 
             var filtered =
@@ -786,6 +819,8 @@ namespace LINQ
         static void Exercise28()
         {
             Console.Clear();
+            Console.WriteLine("Print a distinct list of product categories and the count of the products they contain\n");
+
             List<Product> products = DataLoader.LoadProducts();
 
             // Create new list to house categories
@@ -816,6 +851,8 @@ namespace LINQ
         static void Exercise29()
         {
             Console.Clear();
+            Console.WriteLine("Print a distinct list of product categories and the total units in stock\n");
+
             List<Product> products = DataLoader.LoadProducts();
 
             // Create new list to house categories
@@ -846,6 +883,8 @@ namespace LINQ
         static void Exercise30()
         {
             Console.Clear();
+            Console.WriteLine("Print a distinct list of product categories and the lowest priced product in that category\n");
+
             List<Product> products = DataLoader.LoadProducts();
 
             // Create new list to house categories
@@ -879,6 +918,8 @@ namespace LINQ
         static void Exercise31()
         {
             Console.Clear();
+            Console.WriteLine("Print the top 3 categories by the average unit price of their products\n");
+
             List<Product> products = DataLoader.LoadProducts();
 
             // Create new list to house categories
